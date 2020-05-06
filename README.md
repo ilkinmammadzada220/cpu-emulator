@@ -18,8 +18,8 @@ DISP,
 HALT.
 
 # For compile code
-```bash javac main.java ```
+``` javac main.java ```
 # For run code
-```bash java main program.txt ```
+``` java main program.txt ```
 
 Input text is args[0]. That's why you must run code in command line.
