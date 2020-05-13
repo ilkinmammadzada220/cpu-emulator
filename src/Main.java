@@ -23,7 +23,7 @@ enum InstructionTypes {
 
 
 
-public class Midterm_20160807002 {
+public class Main {
     public static int[] M = new int[256];
     public static int F = 0;
     public static boolean isStarted = false;
@@ -34,7 +34,7 @@ public class Midterm_20160807002 {
     public static String instruction = "";
     public static InstructionTypes type;
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException {
         //Command line code to run
         //java Main args[0]
         readAndAddData(args[0]);
@@ -48,6 +48,7 @@ public class Midterm_20160807002 {
         {
             isStarted = true;
             while (isStarted) {
+                //Thread.sleep(100); //To see how program compute and display output by order
 
                 String[] instructionList = fullData.get(PC).split(" "); //EX:  {LOAD, 20}
                 instruction = instructionList[0];                             // {LOAD}
@@ -109,85 +110,105 @@ public class Midterm_20160807002 {
     }
 
     //region INSTRUCTIONS
+    ////////////////////////////////////////////
+    //Instruction to start the execution
     public static void START(){
         System.out.println("Program execution started!");
         isStarted = true;
         PC++;
     }
+    //Instruction to load x to AC
     public static void LOAD(int x) {
         AC=x;
         PC++;
-        displayValues(x);
+//        displayValues(x);
     }
+    //Instruction to load M[x] to AC
     public static void LOADM(int x) {
         AC = M[x];
         PC++;
-        displayValues(x);
+//        displayValues(x);
     }
+    //Instruction to store AC to M[x]
     public static void STORE(int x) {
         M[x] = AC;
         PC++;
-        displayValues(x);
+//        displayValues(x);
     }
+    //Instruction to change F value according to relationship between AC and M[x]
     public static void CMPM(int x) {
         if(AC > M[x]) F = 1;
         if(AC < M[x]) F = -1;
         if(AC == M[x]) F = 0;
 
         PC++;
-        displayValues(x);
+//        displayValues(x);
 
     }
+    //Instruction to change PC value according to F value
     public static int CJMP(int x) {
-        displayValues(x);
-        return F > 0 ? PC = x : PC++;
+//        displayValues(x);
+        return F >= 0 ? PC = x : PC++;
     }
+    //Instruction to change PC value to x
     public static void JMP(int x) {
         PC = x;
-        System.out.println("JUMPED BACK TO "+ PC);
-        displayValues(x);
+//        System.out.println("JUMPED BACK TO "+ PC);
+//       displayValues(x);
     }
+    //Instruction to subtract x from AC
     public static void ADD(int x) {
         AC +=x;
         PC++;
-        displayValues(x);
+//        displayValues(x);
     }
+    //Instruction to add M[x] to AC
     public static void ADDM(int x) {
         AC += M[x];
         PC++;
-        displayValues(x);
+//        displayValues(x);
     }
+    //Instruction to subtract x from AC
     public static void SUB(int x) {
         AC -=x;
         PC++;
-        displayValues(x);
+//        displayValues(x);
     }
+    //Instruction to subtract M[x] from AC
     public static void SUBM(int x) {
         AC -= M[x];
         PC++;
-        displayValues(x);
+//        displayValues(x);
     }
+    //Instruction to multiple AC with x
     public static void MUL(int x) {
         AC *= x;
         PC++;
-        displayValues(x);
+//        displayValues(x);
     }
+    //Instruction to multiple AC with M[x]
     public static void MULM(int x) {
         AC *= M[x];
         PC++;
-        displayValues(x);
+//        displayValues(x);
     }
+    //Instruction to show AC value
     public static void DISP() {
-        System.out.println("AC: "+AC);
+        //System.out.println("AC: "+AC);
+        System.out.print(AC);
         PC++;
     }
+    //Instruction to stop the execution
     public static void HALT() {
-        System.out.println("---After HALT Instruction---\n\n"+"Program execution stopped!");
+        System.out.println("\nProgram execution stopped!");
         isStarted = false;
     }
-
+    //Instruction to show statistics on screen after proper instruction --> AC, PC, M[x], F values
     public static void displayValues(int x){
-        System.out.println("---After " + type.toString() + x + " Instruction---\n" + "AC: " + AC + " PC:" + PC + " M: " + M[x] + " F: " + F);
+        System.out.println("---After " + type.toString() + ' ' + x + " Instruction---\n" + "AC: " + AC + " PC:" + PC + " M: " + M[x] + " F: " + F);
     }
+    ////////////////////////////////////////////
     //end region
+
+
 }
